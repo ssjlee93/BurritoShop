@@ -3,7 +3,7 @@ module.exports = function (sequelize, DataTypes) {
   const Burrito = sequelize.define("Burrito", {
     name: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: false
     },
     size: {
       type: DataTypes.STRING,
@@ -14,6 +14,9 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false
     }
   });
-
+  Burrito.associate = (models) => {
+    // associations can be defined here
+    Burrito.hasOne(models.OrderItem);
+  };
   return Burrito;
 };
