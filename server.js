@@ -26,8 +26,8 @@ app.use(express.json());
 require("./routes/api-routes.js")(app);
 
 const burritoData = [
-  { id: 1, name: 'Chicken Burrito', size: 'Regular', price: 7.99 },
-  { id: 2, name: 'Vegetarian Burrito', size: 'Large', price: 8.99 },
+  { name: 'Chicken Burrito', size: 'Regular', price: 7.99 },
+  { name: 'Vegetarian Burrito', size: 'Large', price: 8.99 },
   // Add more burritos as needed
 ];
 
@@ -35,8 +35,7 @@ const burritoData = [
 db.sequelize.sync({ force: true })
   .then(() => {
     // Populate Burrito table with dummy data
-    console.log(db)
-    return db.burrito.bulkCreate(burritoData);
+    return db.Burrito.bulkCreate(burritoData);
   })
   .then(() => {
     console.log('Database synchronized and populated with dummy data.');
