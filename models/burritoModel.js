@@ -2,7 +2,7 @@ const { Sequelize, DataTypes, Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   const Burrito = sequelize.define("Burrito", {
-    burritoId: {
+    id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   Burrito.associate = (models) => {
     // associations can be defined here
-    Burrito.hasOne(models.OrderItem);
+    Burrito.hasMany(models.OrderItem);
   };
   return Burrito;
 };

@@ -5,14 +5,15 @@
 // *** Dependencies
 // =============================================================
 const express = require("express");
+const bodyParser = require('body-parser');
+const routes = require("./routes/api-routes.js");
+// Requiring our models for syncing
+const db = require("./models");
 
 // Sets up the Express App
 // =============================================================
 const app = express();
 const PORT = 3000;
-
-// Requiring our models for syncing
-const db = require("./models");
 
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
@@ -23,7 +24,10 @@ app.use(express.json());
 
 // Routes
 // =============================================================
-require("./routes/api-routes.js")(app);
+
+app.use(bodyParser.json());
+
+app.use('/api', routes);
 
 const burritoData = [
   { name: 'Chicken Burrito', size: 'Regular', price: 7.99 },
