@@ -40,7 +40,7 @@ class OrderService {
             const { burrito, ...itemData } = item;
 
             // Find or create the associated Burrito
-            const [createdBurrito] = await db.Burrito.findOrCreate({
+            const createdBurrito = await db.Burrito.findOrCreate({
                 where: { name: burrito.name, size: burrito.size }, 
                 defaults: burrito,
             });

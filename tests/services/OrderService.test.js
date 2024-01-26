@@ -40,7 +40,7 @@ describe('OrderService', () => {
         const orderData = { id: 1 };
         const burritoData = { id: 1, price: 5 };
         const orderItemData = { quantity: 2, burrito: burritoData };
-        const createdOrder = { ...orderData, totalCost: orderItemData.quantity * orderItemData.burrito.price };
+        const createdOrder = { ...orderData, totalCost: orderItemData.quantity * orderItemData.burrito.price, orderItems: [orderItemData]};
         db.Order.create.mockResolvedValue(createdOrder);
         db.Burrito.findOrCreate.mockResolvedValue(burritoData);
         db.OrderItem.create.mockResolvedValue(orderItemData);

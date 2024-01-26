@@ -6,7 +6,14 @@ A simple backend for Burrito Shop
 * Docker
 
 ## Usage
+building and running
 
 ```shell
 docker-compose up
+```
+
+To run tests, 
+```shell
+npm i
+npm test
 ```
