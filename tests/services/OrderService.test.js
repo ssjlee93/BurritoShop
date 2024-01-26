@@ -1,86 +1,51 @@
-const OrderService = require('../../services/OrderService');
+// ./tests/services/OrderService.test.js
+
 const db = require('../../models');
+const OrderService = require('../../services/OrderService');
 
-// Mock the entire db module
 jest.mock('../../models');
-jest.mock('sequelize')
-
 
 describe('OrderService', () => {
-  let service;
-
-  beforeAll(() => {
-    service = new OrderService();
-  });
-
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
-
-  describe('getAllOrders', () => {
-    test('should get all Orders', async () => {
-      // Arrange: Mock the findAll method to return some dummy data
-      const findAllmock = jest.fn().mockResolvedValueOnce([{ id: 1, name: 'Order1' }, { id: 2, name: 'Order2' }]);
-      db.Order.findAll = findAllmock;
-
-      // Act: Call the getAllOrders method
-      const result = await service.getAllOrders();
-
-      // Assert: Check that the mock implementation is used
-      expect(result).toEqual([{ id: 1, name: 'Order1' }, { id: 2, name: 'Order2' }]);
+    beforeEach(() => {
+        db.Order.create.mockClear();
+        db.Order.findByPk.mockClear();
+        db.Order.findAll.mockClear();
     });
-  });
 
-  describe('getOrder', () => {
-    test('should get one Order', async () => {
-      const mockData = { id: 1, name: 'Order1', totalCost: 15.15 }
-      // Arrange: Mock the findAll method to return some dummy data
-      const findOneMock = jest.fn().mockResolvedValueOnce(mockData);
-      db.Order.findOne = findOneMock;
+    describe('getAllOrders', () => {
+        test('should get all Orders', async () => {
+            // Arrange: Mock the findAll method to return some dummy data
+            const expectedOrders = [{ id: 1, name: 'Order1' }, { id: 2, name: 'Order2' }];
+            db.Order.findAll.mockResolvedValueOnce(expectedOrders);
 
-      // Act: Call the getOrder method
-      const result = await service.getOrder(1);
+            // Act: Call the getAllOrders method
+            const orderService = new OrderService();
+            const result = await orderService.getAllOrders();
 
-      // Assert: Check that the mock implementation is used
-      expect(result).toEqual(mockData);
+            // Assert: Check that the mock implementation is used
+            expect(result).toEqual(expectedOrders);
+        });
     });
-  });
 
-  describe('createOrder', () => {
-    test('should create a new Order', async () => {
-      const newData = {
-        "totalCost": 0.00,
-        "orderItems": [
-          {
-            "quantity": 2,
-            "burrito": {
-              "name": "Chicken Burrito",
-              "size": "Regular",
-              "price": 7.99
-            }
-          },
-          {
-            "quantity": 1,
-            "burrito": {
-              "name": "Beef Burrito",
-              "size": "Small",
-              "price": 6.99
-            }
-          }
-        ]
-      };
-
-      // Arrange: Mock the create method on an instance of Order
-      const createMock = jest.fn().mockResolvedValueOnce({ id: 3, ...newData });
-      db.Order.create = createMock;
-
-      // Act: Call the createOrder method
-      const result = await service.createOrder(newData);
-
-      // Assert: Check that the mock implementation is used
-      expect(result).toEqual({ id: 3, ...newData });
-      // Assert that the create method was called with the correct arguments
-      expect(createMock).toHaveBeenCalledWith(newData);
+    test('getOrder returns the order with associated order items and burritos', async () => {
+        const orderId = 1;
+        const expectedOrder = { id: orderId, orderItems: [{ id: 1, burrito: { id: 1 } }] };
+        db.Order.findByPk.mockResolvedValue(expectedOrder);
+        const orderService = new OrderService();
+        const result = await orderService.getOrder(orderId);
+        expect(result).toEqual(expectedOrder);
     });
-  });
+
+    test('createOrder creates a new order and associated order items', async () => {
+        const orderData = { id: 1 };
+        const burritoData = { id: 1, price: 5 };
+        const orderItemData = { quantity: 2, burrito: burritoData };
+        const createdOrder = { ...orderData, totalCost: orderItemData.quantity * orderItemData.burrito.price };
+        db.Order.create.mockResolvedValue(createdOrder);
+        db.Burrito.findOrCreate.mockResolvedValue(burritoData);
+        db.OrderItem.create.mockResolvedValue(orderItemData);
+        const orderService = new OrderService();
+        const result = await orderService.createOrder({ ...orderData, orderItems: [orderItemData] });
+        expect(result).toEqual(createdOrder);
+    });
 });

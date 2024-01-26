@@ -9,7 +9,7 @@ class BurritoController {
         res.json(burritos);
     } catch (error) {
         console.error('Error fetching burritos:', error);
-        return res.status(404).send('Not Found');
+        res.status(404).send('Not Found');
     }
   }
 
