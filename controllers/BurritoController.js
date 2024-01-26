@@ -1,9 +1,15 @@
-const burritoService = require('../services/BurritoService');
+const BurritoService = require('../services/BurritoService');
 
 class BurritoController {
+  burritoService;
+
+  constructor(burritoService) {
+    this.burritoService = burritoService;
+  }
+
   async getAllBurritos(req, res) {
     try {
-        const burritos = await burritoService.getAllBurritos();
+        const burritos = await BurritoService.getAllBurritos();
         res.json(burritos);
     } catch (error) {
         console.error('Error fetching burritos:', error);
@@ -13,7 +19,7 @@ class BurritoController {
 
   async createBurrito(req, res) {
     const newBurrito = req.body;
-    const createdBurrito = await burritoService.createBurrito(newBurrito);
+    const createdBurrito = await BurritoService.createBurrito(newBurrito);
     res.status(201).json(createdBurrito);
   }
 

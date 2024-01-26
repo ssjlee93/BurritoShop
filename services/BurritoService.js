@@ -1,7 +1,7 @@
-const Burrito = require('../models/burritoModel');
-const db = require('../models');
+const db  = require('../models');
 
 class BurritoService {
+
   async getAllBurritos() {
     return await db.Burrito.findAll();
   }

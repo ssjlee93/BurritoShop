@@ -1,6 +1,7 @@
-const db = require('../models');
+const db = require('../models')
 
 class OrderService {
+
     async getAllOrders() {
         return await db.Order.findAll({
             include: [

@@ -1,9 +1,10 @@
-const orderService = require('../services/OrderService.ts');
+const OrderService = require('../services/OrderService');
 
 class OrderController {
+    
     async getAllOrders(req, res) {
         try {
-            const orders = await orderService.getAllOrders();
+            const orders = await OrderService.getAllOrders();
             res.json(orders);
         } catch (error) {
             console.error('Error fetching orders:', error);
@@ -14,9 +15,9 @@ class OrderController {
     async getOrder(req, res) {
         try {
             const orderId = req.params.id;
-            const order = await orderService.getOrder(orderId);
+            const order = await OrderService.getOrder(orderId);
             // Check if the order is not found (null) and throw an error
-            if (!order) {
+            if (order === null) {
                 throw new Error(`Order with ID ${orderId} not found`);
             }
             res.json(order);
@@ -29,7 +30,7 @@ class OrderController {
     async createOrder(req, res) {
         try {
             const newOrder = req.body;
-            const createOrder = await orderService.createOrder(newOrder);
+            const createOrder = await OrderService.createOrder(newOrder);
             res.status(201).json(createOrder);
         } catch (error) {
             console.error('Error creating orders:', error)

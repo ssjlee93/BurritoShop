@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const burritoController = require('../controllers/BurritoController');
-const orderController = require('../controllers/OrderController.ts')
+const orderController = require('../controllers/OrderController')
 
 router.get('/burrito', burritoController.getAllBurritos);
 router.post('/burrito', burritoController.createBurrito);

@@ -1,6 +1,4 @@
-const { Sequelize, DataTypes, Model } = require('sequelize');
-
-module.exports = (sequelize, DataTypes) => {
+module.exports = function (sequelize, DataTypes) {
   const Burrito = sequelize.define("Burrito", {
     id: {
       type: DataTypes.INTEGER,
