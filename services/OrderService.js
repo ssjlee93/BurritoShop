@@ -60,4 +60,4 @@ class OrderService {
 
 }
 
-module.exports = new OrderService();
+module.exports = OrderService;

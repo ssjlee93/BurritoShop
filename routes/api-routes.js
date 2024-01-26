@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const burritoController = require('../controllers/BurritoController');
+const BurritoController = require('../controllers/BurritoController');
+const burritoController = new BurritoController();
 const orderController = require('../controllers/OrderController')
 
 router.get('/burrito', burritoController.getAllBurritos);

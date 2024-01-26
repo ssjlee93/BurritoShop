@@ -7,7 +7,7 @@ module.exports = function (sequelize, DataTypes) {
       primaryKey: true
     },
     totalCost: {
-      type: DataTypes.FLOAT(11, 2),
+      type: DataTypes.FLOAT,
       allowNull: false
     },
   });

@@ -12,4 +12,4 @@ class BurritoService {
 
 }
 
-module.exports = new BurritoService();
+module.exports = BurritoService;
