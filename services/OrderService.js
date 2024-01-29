@@ -44,11 +44,11 @@ class OrderService {
                 where: { name: burrito.name, size: burrito.size }, 
                 defaults: burrito,
             });
-
+            
             // Create the OrderItem and associate it with the Order and Burrito
             const orderItem = await db.OrderItem.create({
                 ...itemData,
-                BurritoId: createdBurrito.id, 
+                BurritoId: createdBurrito[0].dataValues.id, 
                 OrderId: order.id, 
             });
 

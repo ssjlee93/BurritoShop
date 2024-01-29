@@ -7,6 +7,9 @@ const OrderController = require('../../controllers/OrderController');
 
 jest.mock('../../services/OrderService');
 
+
+// TODO - add tests for error cases
+// TODO - fix unit tests for OrderController
 const app = express();
 app.use(express.json());
 app.get('/orders', (req, res) => new OrderController().getAllOrders(req, res));

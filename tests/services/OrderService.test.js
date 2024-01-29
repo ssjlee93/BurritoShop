@@ -36,16 +36,22 @@ describe('OrderService', () => {
         expect(result).toEqual(expectedOrder);
     });
 
+    // TODO - fix unit test for createOrder
     test('createOrder creates a new order and associated order items', async () => {
-        const orderData = { id: 1 };
-        const burritoData = { id: 1, price: 5 };
+        const burritoData = { id: 1, name: 'test burrito', price: 5, size: 'small' };
+        const burritoWrapper = [{dataValues: burritoData}];
         const orderItemData = { quantity: 2, burrito: burritoData };
-        const createdOrder = { ...orderData, totalCost: orderItemData.quantity * orderItemData.burrito.price, orderItems: [orderItemData]};
-        db.Order.create.mockResolvedValue(createdOrder);
-        db.Burrito.findOrCreate.mockResolvedValue(burritoData);
+        const orderData = { id: 1, totalCost: orderItemData.quantity * orderItemData.burrito.price, };
+        const createdOrder = { 
+            ...orderData, 
+            orderItems: [orderItemData]
+        };
+        const expected = { order: orderData, orderItems: [orderItemData] };
+        db.Order.create.mockResolvedValue(orderData);
+        db.Burrito.findOrCreate.mockResolvedValue([burritoWrapper]);
         db.OrderItem.create.mockResolvedValue(orderItemData);
         const orderService = new OrderService();
-        const result = await orderService.createOrder({ ...orderData, orderItems: [orderItemData] });
-        expect(result).toEqual(createdOrder);
+        const result = await orderService.createOrder(createdOrder);
+        expect(result).toEqual(expected);
     });
 });
