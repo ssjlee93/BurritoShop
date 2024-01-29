@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const BurritoController = require('../controllers/BurritoController');
 const burritoController = new BurritoController();
-const orderController = require('../controllers/OrderController')
+const OrderController = require('../controllers/OrderController')
+const orderController = new OrderController();
 
 router.get('/burrito', burritoController.getAllBurritos);
 router.post('/burrito', burritoController.createBurrito);

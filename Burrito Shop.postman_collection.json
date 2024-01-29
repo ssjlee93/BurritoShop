@@ -47,12 +47,12 @@
 			"response": []
 		},
 		{
-			"name": "Get all order items Copy 2",
+			"name": "Get one order with orderId",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/api/orders/2",
+					"raw": "http://localhost:3000/api/orders/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -61,7 +61,7 @@
 					"path": [
 						"api",
 						"orders",
-						"2"
+						"1"
 					]
 				}
 			},
